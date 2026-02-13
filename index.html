@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Isekai Valentine Quest (8-bit)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="stage">
+    <div class="phone" aria-label="9:16 game viewport">
+      <!-- Background / World -->
+      <div class="world" aria-hidden="true">
+        <div class="layer sky"></div>
+        <div class="layer stars"></div>
+        <div class="layer clouds c1"></div>
+        <div class="layer clouds c2"></div>
+        <div class="layer moon"></div>
+        <div class="layer mountains"></div>
+        <div class="layer castle"></div>
+        <div class="layer town"></div>
+        <div class="layer forest"></div>
+        <div class="layer flowers"></div>
+        <div class="layer ground"></div>
+        <canvas id="fx" class="fx"></canvas>
+        <div class="crt" aria-hidden="true"></div>
+      </div>
+
+      <!-- UI ROOT -->
+      <div class="ui" role="application" aria-label="Game UI">
+
+        <!-- TOP HUD (persistent) -->
+        <header class="topbar">
+          <div class="brand">
+            <span class="gem" aria-hidden="true"></span>
+            <span class="brand-title">BOB'S ISEKAI LOVE QUEST</span>
+          </div>
+
+          <div class="top-actions">
+            <button id="soundBtn" class="chip" type="button" aria-label="Toggle sound">
+              SOUND: <span id="soundState">ON</span>
+            </button>
+            <div class="chip clock" aria-label="Clock">
+              <span id="clock">00:00:00</span>
+            </div>
+          </div>
+        </header>
+
+        <!-- SCREEN 1 -->
+        <section id="screen1" class="screen active" aria-label="Intro">
+          <div class="panel panel-hero">
+            <div class="hero-badge">
+              <div class="hero-heart" aria-hidden="true"></div>
+              <div class="hero-title">
+                <div class="h1 blink">VALENTINE EVENT</div>
+                <div class="h2">LIMITED QUEST</div>
+              </div>
+            </div>
+
+            <div class="load-row">
+              <div class="loading">LOADING WORLD…</div>
+              <div class="meter"><span id="meterFill" class="meter-fill"></span></div>
+            </div>
+
+            <div class="count-area">
+              <div id="countdown" class="countdown">3</div>
+              <div class="sub">Countdown to 2026/02/14 16:00 ❤</div>
+            </div>
+
+            <!-- CUSTOM UI START -->
+            <button id="startBtn" class="btn btn-start hidden" type="button">START</button>
+            <!-- CUSTOM UI END -->
+
+            <div class="tip">Tap once to unlock music (mobile)</div>
+            <div class="dev-note">Made with love by <b>BOB</b> for <b>SOMOH</b> ❤️</div>
+          </div>
+
+          <div class="decor-row">
+            <div class="card pixel">
+              <div class="card-title">EVENT BONUS</div>
+              <div class="card-body">+ Hearts, + Blue Flowers, + Luck</div>
+            </div>
+            <div class="card pixel">
+              <div class="card-title">QUEST ITEM</div>
+              <div class="card-body">Mystic Letter to SOMOH ✉️</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SCREEN 2 -->
+        <section id="screen2" class="screen" aria-label="Choice / MMORPG">
+          <div class="hud-grid">
+            <div class="hud-left pixel">
+              <div class="row">
+                <div class="avatar" aria-hidden="true"></div>
+                <div class="id">
+                  <div class="name">SOMOH</div>
+                  <div class="lvl">LV 99</div>
+                </div>
+              </div>
+
+              <div class="bars">
+                <div class="bar">
+                  <span class="label">HP</span>
+                  <div class="track"><span id="hpFill" class="fill hp"></span></div>
+                </div>
+                <div class="bar">
+                  <span class="label">MP</span>
+                  <div class="track"><span id="mpFill" class="fill mp"></span></div>
+                </div>
+                <div class="bar">
+                  <span class="label">LOVE</span>
+                  <div class="track"><span id="loveFill" class="fill love"></span></div>
+                </div>
+              </div>
+
+              <div class="mini">
+                <div class="mini-line">NO: <b id="noCount">0</b>/4</div>
+                <div class="mini-line">STATUS: <b id="statusText">CALM</b></div>
+              </div>
+            </div>
+
+            <div class="hud-right pixel">
+              <div class="quest-title">MAIN QUEST</div>
+              <div class="quest-text" id="questText">Talk to BOB and accept the Valentine quest.</div>
+              <div class="quest-steps">
+                <div class="step done">✓ Enter Isekai Town</div>
+                <div class="step active">★ Talk to NPC</div>
+                <div class="step">□ Get the Answer</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="scene-center">
+            <div class="stage-floor"></div>
+
+            <div id="npc" class="npc">
+              <div class="npc-sprite" aria-hidden="true"></div>
+              <div class="npc-shadow" aria-hidden="true"></div>
+              <div id="emote" class="emote" aria-hidden="true">💗</div>
+            </div>
+
+            <div class="floating-icons" aria-hidden="true">
+              <div class="fairy"></div>
+              <div class="bird"></div>
+            </div>
+          </div>
+
+          <div class="dialog pixel">
+            <div class="dialog-top">
+              <div class="dialog-name">NPC: BOB (Dev/Gamer)</div>
+              <div class="badge">EVENT</div>
+            </div>
+            <div id="dialogText" class="dialog-text">SOMOH… will you be my Valentine?</div>
+            <div class="dialog-hint">Choose wisely… (NO makes her angry)</div>
+          </div>
+
+          <div class="actions">
+            <button id="yesBtn" class="btn btn-yes" type="button">YES</button>
+            <button id="noBtn" class="btn btn-no" type="button">NO</button>
+          </div>
+
+          <div class="hotbar pixel" aria-label="Hotbar">
+            <div class="slot">1<br><span>❤️</span></div>
+            <div class="slot">2<br><span>✨</span></div>
+            <div class="slot">3<br><span>🌸</span></div>
+            <div class="slot">4<br><span>📜</span></div>
+            <div class="slot">5<br><span>🗡️</span></div>
+          </div>
+        </section>
+
+        <!-- SCREEN 3 -->
+        <section id="screen3" class="screen end" aria-label="End">
+          <div class="panel panel-end">
+            <div class="end-head">
+              <div class="end-title blink">END</div>
+              <div class="end-sub">Quest Complete</div>
+            </div>
+            <div class="gif-frame">
+              <img id="endGif" src="assets/gif_end.gif" alt="End GIF">
+            </div>
+            <button id="replayBtn" class="btn btn-start" type="button">REPLAY</button>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
